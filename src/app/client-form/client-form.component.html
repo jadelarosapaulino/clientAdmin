@@ -1,0 +1,77 @@
+<div>
+  <h3>
+    Info
+  </h3>
+</div>
+
+<hr>
+
+<div class="row g-3" [formGroup]="formInfo">
+  <div class="col-md-6">
+    <!-- <label for="inputEmail4" class="form-label">Email</label> -->
+    <input type="text" formControlName="nombre" class="form-control" id="inputEmail4" placeholder="Nombre">
+  </div>
+  <div class="col-md-6">
+    <!-- <label for="inputPassword4" class="form-label">Password</label> -->
+    <input type="text" formControlName="apellido" class="form-control" id="inputPassword4" placeholder="Apellido">
+  </div>
+  <div class="col-md-6">
+    <!-- <label for="inputAddress" class="form-label">Address</label> -->
+    <input type="tel" formControlName="telefono" class="form-control" id="inputAddress" placeholder="Telefono">
+  </div>
+  <div class="col-md-6">
+    <!-- <label for="inputAddress2" class="form-label">Address 2</label> -->
+    <input type="email" formControlName="email" class="form-control" id="inputAddress2" placeholder="Email">
+  </div>
+
+
+  <h4>Direcciones <span class="badge bg-secondary"
+    data-bs-toggle="modal"
+    data-bs-target="#addressModal"
+     data-bs-whatever="@mdo"><i class="fas fa-plus"></i></span></h4>
+  <hr>
+    <div *ngFor="let i of addressList" class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="col-md-11">
+        {{ i.direccion }}
+      </div>
+      <div class="col-md-1 text-rigth">
+        <span class="badge bg-success rounded-pill"><i class="fas fa-pencil-alt"></i></span>
+        <span class="badge bg-danger rounded-pill"><i class="far fa-trash-alt"></i></span>
+      </div>
+    </div>
+
+  <hr>
+  <div class="col-12">
+    <button *ngIf="cID === 0" type="submit" (click)="_addClient(formInfo.value)" class="btn btn-success">Guardar</button>
+    <button *ngIf="cID > 0" type="submit" (click)="_addClient(formInfo.value)" class="btn btn-primary">Actulizar</button>
+    <button type="reset" class="btn btn-warning" [routerLink]="['/form']">Limpiar</button>
+    <button type="submit" class="btn btn-danger" [routerLink]="['/client']">Cancelar</button>
+  </div>
+</div>
+
+
+<!-- Modal Direcciones -->
+
+
+<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Direccion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div [formGroup]="formAddress">
+          <div class="mb-3">
+            <!-- <label for="message-text" class="col-form-label">Message:</label> -->
+            <textarea class="form-control" formControlName="direccion" id="message-text"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="_addAdress(formAddress.value)" class="btn btn-secondary" data-bs-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-primary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
