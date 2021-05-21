@@ -39,6 +39,13 @@ export class ClientService {
      });
    }
 
+   _delete(id: number) {
+     return this.dbService.delete('client', id);
+   }
+
+   _search(criterio: string) {
+    return this.dbService.getByIndex('client', 'nombre', criterio);
+   }
   //  Direcciones
 
   _getAllAddres(id: number) {

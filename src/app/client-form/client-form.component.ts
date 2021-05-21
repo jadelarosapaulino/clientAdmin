@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { addressModel } from '../model/address';
 import { clientModel } from '../model/client';
 import { ClientService } from '../services/client.service';
@@ -20,7 +21,7 @@ export class ClientFormComponent implements OnInit {
 
   cID: number = 0;
 
-  constructor(public cs: ClientService, private router: Router, private route: ActivatedRoute) {
+  constructor(public cs: ClientService, private router: Router, private route: ActivatedRoute,public toastr: ToastrService) {
     this.clientInfo = new clientModel;
     this.formInfo = new FormGroup({
       nombre: new FormControl(''),
@@ -69,16 +70,27 @@ export class ClientFormComponent implements OnInit {
   _addClient(data: clientModel) {
     this.cs._add(data).subscribe( res => {
       this.cs._getCLient(res).subscribe( dat => {
-        console.log(dat);
+        let data = dat as clientModel;
+
+        this.toastr.success('Cliente creado correctamente');
+
+        setTimeout(() => {
+          this.router.navigate(['/form', data.clientID]);
+        }, 1000);
+
       })
     })
   }
 
   _updateClient(data: clientModel) {
-    const client = data as clientModel;
+    //const client = data as clientModel;
 
+    data.clientID = this.cID;    
     this.cs._update(data).subscribe( res => {
-      console.log(res);
+
+      this.toastr.success('Cliente actulizado');
+      this._getClient(this.cID);
+      this._getAllAddress();
     })
   }
 
@@ -86,9 +98,8 @@ export class ClientFormComponent implements OnInit {
     data.clientID = this.clientInfo.clientID;
     this.cs._addAddress(data)
       .subscribe(res => {
-        console.log(res);
+        this._getAllAddress();
       })
-
   }
 
   _getAllAddress() {

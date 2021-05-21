@@ -10,6 +10,7 @@ import { ClientFormComponent } from './client-form/client-form.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
+import { ToastrModule } from 'ngx-toastr';
 
 const dbConfig: DBConfig  = {
   name: 'clientAdminDB',
@@ -47,6 +48,7 @@ const dbConfig: DBConfig  = {
     ReactiveFormsModule,
     FormsModule,
     NgxIndexedDBModule.forRoot(dbConfig),
+    ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
